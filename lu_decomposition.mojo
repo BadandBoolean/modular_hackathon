@@ -11,6 +11,10 @@ alias SIZE = 2
 alias layout = Layout.row_major(SIZE, SIZE)
 
 
+# divides all elements in the row by the diagonal (pivot) element
+# executed in parallel on the specific row where the row is fed in but the
+# element executions are parallelized
+# this gets the upper triangular matrix
 fn scale(
     a: UnsafePointer[Scalar[DType.float32]], size: Int, index: Int
 ) -> None:
@@ -21,6 +25,8 @@ fn scale(
         a[i] = a[i] / a[start]
 
 
+# this gets the lower triangular matrix
+# subtracts pivot el * multiplier from row
 fn reduce(
     a: UnsafePointer[Scalar[DType.float32]], size: Int, index: Int, tid: Int
 ) -> None:
